@@ -1,0 +1,23 @@
+body {
+    margin: 0;
+    transition: background 0.5s ease-in-out; /* Makes background change smoothly */
+    color: white; /* Smooth fade when artist changes */
+}
+
+/* Optional: Add a dark overlay so text is readable */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Adjust 0.6 to make it darker or lighter */
+    z-index: -1;
+}
+
+#results {
+    max-width: 800px;
+    margin: 0 auto;
+    padding-bottom: 50px;
+}
