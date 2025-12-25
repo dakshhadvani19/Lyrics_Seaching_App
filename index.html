@@ -6,20 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Favorite Lyrics Search App</title>
     <link rel="stylesheet" href="output.css">
+    <style>
+  body {
+    /* 1. Default Background: High-quality Music Aesthetic */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), 
+                      url('https://images.unsplash.com/photo-1493225255756-d9584f8606e9?q=80&w=2070&auto=format&fit=crop');
+    
+    /* 2. Styling to make it look like a pro app */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    margin: 0;
+    
+    /* 3. Smooth Transition: This makes the artist background "fade in" slowly */
+    transition: background-image 1.2s ease-in-out;
+  }
+
+  /* 4. Optional: Add a subtle blur to the container for a glass effect */
+  #results {
+    backdrop-blur: 10px;
+    -webkit-backdrop-filter: blur(10px);
+  }
+</style>
 </head>
 
 <body>
-    <style>
-        body {
-              /* This is your "Default" state */
-              background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
-                          url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=2070&auto=format&fit=crop');
-              background-size: cover;
-              background-position: center;
-              background-attachment: fixed;
-              transition: background-image 1s ease-in-out; /* Makes the switch to the artist image smooth */
-        }
-    </style>
     <div id="container" class="flex flex-col gap-4 p-10 items-center">
         <input type="text" id="song" placeholder="Song title..." class="w-full max-w-md px-6 py-4 
               bg-white/20 backdrop-blur-md 
@@ -56,5 +69,6 @@
 <script src="Lyrics_Search_app.js"></script>
 
 </html>
+
 
 
