@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Favorite Lyrics Search App</title>
     <link rel="stylesheet" href="./dist/output.css">
+    <link rel="stylesheet" href="Lyrics_Search_app.css">
     <style>
         body {
             /* 1. Default Background: High-quality Music Aesthetic */
@@ -29,6 +30,7 @@
             backdrop-filter: 10px;
             -webkit-backdrop-filter: blur(10px);
         }
+
         /* Hide scrollbar but keep functionality for a cleaner look */
         #results::-webkit-scrollbar {
             display: none;
@@ -40,16 +42,24 @@
             max-height: 400px;
             overflow-y: auto;
         }
+
+        .title_page span {
+            display: inline-block;
+            background-image: linear-gradient(to right, #818cf8, #c084fc, #f472b6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
     </style>
 </head>
 
 <body class="text-white">
     <div class="pt-10 pb-4 text-center animate-title">
-    <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight">
-            <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 drop-shadow-lg">
-                Search Your Favourite Song
-            </span>
-        </h1>
+        <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight">
+    <span class="inline-block bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent drop-shadow-lg">
+        Search Your Favourite Song
+    </span>
+</h1>
     </div>
     <div id="container" class="flex flex-col gap-4 p-8 items-center">
         <input type="text" id="song" placeholder="Song title..." class="w-full max-w-md px-6 py-3 
@@ -87,4 +97,3 @@
 <script src="Lyrics_Search_app.js"></script>
 
 </html>
-
