@@ -6,79 +6,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Favorite Lyrics Search App</title>
     <link rel="stylesheet" href="dist/output.css">
+    <link rel="stylesheet" href="Lyrics_Search_app.css">
+    
     <style>
         body {
-            /* 1. Default Background: High-quality Music Aesthetic */
+            /* Your Original Background */
             background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)),
                 url('https://images.unsplash.com/photo-1493225255756-d9584f8606e9?q=80&w=2070&auto=format&fit=crop');
-
-            /* 2. Styling to make it look like a pro app */
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
             min-height: 100vh;
             margin: 0;
-
-            /* 3. Smooth Transition: This makes the artist background "fade in" slowly */
             transition: background-image 1.2s ease-in-out;
         }
 
-        /* 4. Optional: Add a subtle blur to the container for a glass effect */
-        #results {
-            backdrop-filter: 10px;
-            -webkit-backdrop-filter: blur(10px);
+        /* 1. THE BEAUTIFUL TITLE STYLING */
+        .title_page {
+            text-align: center;
+            padding-top: 4rem;
+            padding-bottom: 1rem;
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
         }
 
-        /* Hide scrollbar but keep functionality for a cleaner look */
-        #results::-webkit-scrollbar {
-            display: none;
-        }
-
-        #results {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
+        /* Gradient effect for the title text */
         .title_page span {
             display: inline-block;
-            background-image: linear-gradient(to right, #818cf8, #c084fc, #f472b6);
+            background: linear-gradient(to right, #818cf8, #c084fc, #f472b6);
             -webkit-background-clip: text;
-            background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+        }
+
+        /* 2. THE YELLOW BOX BUG FIX */
+        input:focus {
+            outline: none !important;
+            border-color: #6366f1 !important;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.3) !important;
+        }
+
+        #results {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
     </style>
 </head>
 
-<body class="text-white">
-    <div class="pt-10 pb-4 text-center animate-title">
-        <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight">
-    <span class="inline-block bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent drop-shadow-lg">
-        Search Your Favourite Song
-    </span>
-</h1>
-    </div>
-    <div id="container" class="flex flex-col gap-4 p-8 items-center">
-        <input type="text" id="song" placeholder="Song title..." class="w-full max-w-md px-6 py-3 
+<body>
+    <h1 class="title_page">
+        <span>Search Your Favourite Song</span>
+    </h1>
+
+    <div id="container" class="flex flex-col gap-4 p-10 items-center">
+        <input type="text" id="song" placeholder="Song title..." class="w-full max-w-md px-6 py-4 
               bg-white/20 backdrop-blur-md 
-              text-black-200 placeholder-gray-400
+              text-white placeholder-gray-400
               border border-white/30 rounded-full 
               outline-none transition-all duration-500 ease-in-out
               focus:bg-black focus:text-white focus:placeholder-transparent
-              focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/30
               focus:scale-[1.02] shadow-2xl">
-        <input type="text" id="artist" placeholder="Artist Name" class="w-full max-w-md px-6 py-3
+
+        <input type="text" id="artist" placeholder="Artist Name" class="w-full max-w-md px-6 py-4 
               bg-white/20 backdrop-blur-md 
-              text-black-200 placeholder-gray-400
+              text-white placeholder-gray-400
               border border-white/30 rounded-full 
               outline-none transition-all duration-500 ease-in-out
               focus:bg-black focus:text-white focus:placeholder-transparent
-              focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/30
               focus:scale-[1.02] shadow-2xl">
-        <div id="recent-container" class="flex flex-wrap gap-2 my-2">
-        </div>
+
+        <div id="recent-container" class="flex flex-wrap gap-2 my-4"></div>
+
         <div class="flex gap-2">
             <button id="searchBtn"
                 class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-2xl transition-all shadow-lg active:scale-95">
@@ -91,9 +92,9 @@
         </div>
     </div>
 
-    <div id="results" class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-5"></div>
+    <div id="results" class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-5 mx-auto max-w-2xl"></div>
 </body>
+
 <script src="Lyrics_Search_app.js"></script>
 
 </html>
-
