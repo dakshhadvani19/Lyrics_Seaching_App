@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let current_audio = new Audio();
     let song_play_btn = document.getElementById('play_song');
     let isPlaying = false;
-    let ScrollInterval;
+    let ScrollInterval = "";
     let bestMatch = "";
 
 
