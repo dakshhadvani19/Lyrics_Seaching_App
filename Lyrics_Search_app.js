@@ -85,9 +85,9 @@ document.addEventListener('DOMContentLoaded', () => {
         recentContainer.innerHTML = "";
 
         recentSearches.forEach(item => {
-            const chip = document.createElement('button');
-            chip.innerText = item;
-            chip.className = "px-6 py-2 bg-white/20 hover:bg-black transition-all duration-300 hover:scale-105 hover:-translate-y-1 hover:shadow-lg hover:shadow-white/10 border border-white/30 rounded-full text-sm text-white transition-all active:scale-95";
+        const chip = document.createElement('button');
+        chip.innerText = item;
+        chip.className = "px-6 py-2 bg-white/20 hover:bg-black transition-all duration-300 hover:scale-105 hover:-translate-y-1 hover:shadow-lg hover:shadow-white/10 border border-white/30 rounded-full text-sm text-white active:scale-95";
             chip.onclick = () => {
                 const [sName, aName] = item.split(' - ');
                 user_input.value = sName;
@@ -194,3 +194,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize history on load
     displayRecent();
 })
+
