@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let song_play_btn = document.getElementById('play_song');
     let isPlaying = false;
     let ScrollInterval;
+    let bestMatch = "";
 
 
     async function updateBackground(song_name, artist_name) {
@@ -26,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    
     async function copyToClipboard(text, buttonElement) {
         try {
             await navigator.clipboard.writeText(text);
@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-
     async function playSong(song_name, artist_name) {
         const itunesUrl = `https://itunes.apple.com/search?term=${encodeURIComponent(artist_name + " " + song_name)}&limit=1&entity=song`;
         try {
@@ -59,8 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
                 ScrollInterval = setInterval(() => {
-                    window.scrollBy({ top: 1, behavior: 'auto' });
-                }, 220);
+                    window.scrollBy({ top: 3, behavior: 'smooth' });
+                }, 350);
                 current_audio.play();
                 isPlaying = true;
                 console.log(`Playing Song `);
@@ -74,10 +73,12 @@ document.addEventListener('DOMContentLoaded', () => {
             alert("Oops some error occurend while playing this sond , Try another song .");
         }
     }
+
     song_play_btn.addEventListener('click', () => {
-        playSong(song.value, artist.value);
+        playSong(user_input.value, artist.value);
     })
 
+    
     function displayRecent() {
         const recentContainer = document.getElementById('recent-container');
         const recentSearches = JSON.parse(localStorage.getItem('recentSearches')) || [];
@@ -86,32 +87,36 @@ document.addEventListener('DOMContentLoaded', () => {
         recentSearches.forEach(item => {
             const chip = document.createElement('button');
             chip.innerText = item;
-            chip.className = "px-6 py-2 bg-white/20 hover:bg-black hover:shadow-lg shadow-white/10 border border-white/30 rounded-full text-sm text-white transition-all active:scale-95";
+            chip.className = "px-6 py-2 bg-white/20 hover:bg-black transition-all duration-300 hover:scale-105 hover:-translate-y-1 hover:shadow-lg hover:shadow-white/10 border border-white/30 rounded-full text-sm text-white transition-all active:scale-95";
             chip.onclick = () => {
                 const [sName, aName] = item.split(' - ');
                 user_input.value = sName;
                 artist.value = aName;
+                if (isPlaying) {
+                    isPlaying = false;
+                    song_play_btn.textContent = 'Play Song';
+                    clearInterval(ScrollInterval);
+                }
                 matchLyrics(sName, aName);
             };
-            // recentContainer.innerHTML=`<br></br>`;
             recentContainer.appendChild(chip);
         });
     }
 
 
-    function shareOnWhatsapp(song_name,artist_name){
-        let msg=`Check out the lyrics of ${song_name} by ${artist_name}`;
+    function shareOnWhatsapp(song_name, artist_name) {
+        let msg = `Check out the lyrics of ${song_name} by ${artist_name}`;
         let whatsapp_url = `https://wa.me/?text="${encodeURIComponent(msg)}`;
         window.open(whatsapp_url, '_blank');
     }
 
 
-    function saveToRecent(song, artist) {
+    function saveToRecent() {
         let recent = JSON.parse(localStorage.getItem('recentSearches')) || [];
-        const newEntry = `${song} - ${artist}`;
+        const newEntry = `${bestMatch.trackName} - ${bestMatch.artistName}`;
         if (!recent.includes(newEntry)) {
-            recent.unshift(newEntry); // Add to beginning
-            recent = recent.slice(0, 5); // Keep only last 5
+            recent.unshift(newEntry);
+            recent = recent.slice(0, 5);
             localStorage.setItem('recentSearches', JSON.stringify(recent));
         }
         displayRecent();
@@ -124,24 +129,25 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         put_result.innerHTML = "Searching ...";
-        put_result.style.color = "black";
+        put_result.style.color = "white"; // Changed to white for your glassmorphism theme
+
         try {
             const url = `https://lrclib.net/api/search?q=${encodeURIComponent(artist_name + " " + song_name)}`;
             const response = await fetch(url);
             const data = await response.json();
             if (data.length > 0) {
-                const bestMatch = data[0];
+                bestMatch = data[0];
                 updateBackground(bestMatch.trackName, bestMatch.artistName);
-                console.log(`Lyrics Found `);
+
                 setTimeout(() => {
-                    user_input.value = "";
                     user_input.value = bestMatch.trackName;
                     artist.value = bestMatch.artistName;
                 }, 1000);
-                saveToRecent(bestMatch.trackName, bestMatch.artistName);
+
+                saveToRecent();
+
                 if (bestMatch.plainLyrics) {
-                    const btnRow = document.createElement('div');
-                    btnRow.className = "flex gap-4 mb-6";
+                    const rawLyrics = bestMatch.plainLyrics;
 
                     let copyBtn = document.createElement('button');
                     copyBtn.innerText = "📋 Copy Lyrics";
@@ -149,40 +155,32 @@ document.addEventListener('DOMContentLoaded', () => {
                     copyBtn.onclick = () => copyToClipboard(rawLyrics, copyBtn);
 
                     let shareBtn = document.createElement('button');
-                    shareBtn.innerText = "📲 Share";
-                    shareBtn.className = "bg-green-400 text-white px-4 py-2 border rounded-lg hover:bg-green-700 transition-all active:scale-95";
-                    shareBtn.onclick = () => shareOnWhatsapp(bestMatch.trackName,bestMatch.artistName);
-
-                    btnRow.append(copyBtn,shareBtn);
-                    const rawLyrics = bestMatch.plainLyrics;
+                    shareBtn.innerText = "📲 Share on Whatsapp";
+                    shareBtn.className = "mb-4 bg-green-400 text-white px-4 py-2 border rounded-lg hover:bg-green-700 transition-all active:scale-95";
+                    shareBtn.onclick = () => shareOnWhatsapp(bestMatch.trackName, bestMatch.artistName);
 
                     let lyrics_div = document.createElement('pre');
-                    lyrics_div.className = "text-white whitespace-pre-wrap";
+                    lyrics_div.className = "text-white whitespace-pre-wrap font-sans";
                     lyrics_div.textContent = rawLyrics;
 
                     put_result.innerHTML = "";
                     put_result.appendChild(copyBtn);
                     put_result.appendChild(shareBtn);
-                    // put_result.innerHTML = `<h3>Showing lyrics for : ${bestMatch.trackName}</h3>`;
                     put_result.appendChild(lyrics_div);
                 }
             }
             else {
-                console.log("Lyrics not found ...");
                 alert("Please enter valid Song name Or/And Artist Name");
             }
         } catch (err) {
-            console.log(`Error found ${err}`);
             alert("Please enter valid Song name Or/And Artist Name");
             put_result.innerHTML = "Something went wrong ";
         }
     }
 
-
     searh_btn.addEventListener('click', () => {
-        matchLyrics(song.value, artist.value);
+        matchLyrics(user_input.value, artist.value);
     })
-
 
     current_audio.onended = () => {
         isPlaying = false;
@@ -190,7 +188,9 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(ScrollInterval);
     };
 
-    // stop autoscroll if user scrolls manually
     window.addEventListener('wheel', () => clearInterval(ScrollInterval));
     window.addEventListener('touchmove', () => clearInterval(ScrollInterval));
+
+    // Initialize history on load
+    displayRecent();
 })
